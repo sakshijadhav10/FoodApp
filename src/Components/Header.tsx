@@ -11,23 +11,38 @@ import {
 import MenuIcon from "@mui/icons-material/Menu";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-
+import SearchIcon from '@mui/icons-material/Search';
 import { LOGO_URL } from "../utils/constant";
 import {  NavLink } from "react-router-dom";
 
 
 import AuthDrawer from "./Auth/AuthDrawer";
+import { useSelector } from "react-redux";
 
+interface CartItem {
+  id:number,
+  name: string;
+  avgRating: number;
+  costForTwoMessage: string;
+  sla: { minDeliveryTime: number; maxDeliveryTime: number };
+  cuisines: string;
+  totalRatings: number;
+  groupedCard?: boolean;
+}
+interface RootState {
+  allCart: {
+    carts: CartItem[];
+  };
+}
 
 const SwiggyNavbar = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
 
-  // const [auth, setAuth] = useState("Sign In");
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
-
+  const { carts } = useSelector((state: RootState) => state.allCart);
   return (
     <>
       <AppBar
@@ -69,6 +84,18 @@ const SwiggyNavbar = () => {
             Home
           </Button>
           </NavLink>
+          
+          
+          <NavLink to={'/search'} style={{textDecoration:'none',display:'flex',color:'darkblack',fontWeight:'bold'
+          }}>
+            <Button sx={{marginRight:5,color:'black'}}>
+          <SearchIcon />
+          <Typography sx={{'&:hover':{color:'orange', transform: "scale(0.97)",
+      transformOrigin: "top bottom"},fontWeight:'bold',fontSize:14,color:'black'}}>Search</Typography>
+          </Button>
+          </NavLink>
+          {/* </Button> */}
+     
           <NavLink to={'https://www.swiggy.com/offers-near-me'} target="blank" style={{textDecoration:'none',color:'black',fontWeight:'bold'}}>
           <Button
             color="inherit"
@@ -87,7 +114,7 @@ const SwiggyNavbar = () => {
           </NavLink>
           <NavLink to={'/Cartdesc'} style={{textDecoration:'none',color:"black",fontWeight:'bold'}}>
           <IconButton color="inherit" sx={{ marginRight: 5 }}>
-            <Badge badgeContent={1} color="error">
+            <Badge badgeContent={carts.length} color="error">
               <ShoppingCartIcon />
             </Badge>
               {/* <Cartdesc/> */}

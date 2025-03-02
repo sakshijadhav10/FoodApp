@@ -1,50 +1,81 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import toast from "react-hot-toast";
+import AddtoCart from "../../AddtoCart";
+import { NavLink } from "react-router-dom";
+import { Dialog } from "@mui/material";
 
 const initialState = {
-    carts: []
-}
+  carts: [],
+};
 
 const cartSlice = createSlice({
-    name: 'Cart',
-    initialState,
-    reducers: {
-        addToCart: (state, action) => {
-            // Adds the new item to the carts array
-            
-            const ItemIndex=state.carts.findIndex((item)=>item.id===action.payload.id)
-             if(ItemIndex>=0){
-                state.carts[ItemIndex].qnty+=1
-             }
-             else{
-                const temp={...action.payload,qnty:1}
-                
-                state.carts=[...state.carts,temp]
-            }          
-            
-            // state.carts=[...state.carts,action.payload]
+  name: "Cart",
+  initialState,
+  reducers: {
+    addToCart: (
+      state,
+      action: PayloadAction<{ item: any; restaurant: any }>
+    ) => {
+      const { item, restaurant } = action.payload;
 
-        },
-        removeCart:(state,action)=>{
-            const data=state.carts.filter((element)=>element.id!=action.payload)
-            state.carts=data
+      const existingResta = state.carts.find(
+        (cartItem) => cartItem.restaurant.id !== restaurant.id
+      );
 
-        },
-        removeSingleItems:(state,action)=>{
-            const ItemIndex=state.carts.findIndex((item)=>item.id===action.payload.id)
-             if(ItemIndex>=0){
-                state.carts[ItemIndex].qnty-=1
-             }
-             else{
-                const temp={...action.payload,qnty:1}
-                
-                state.carts=[...state.carts,temp]
-            }       
-        },
-        emptyCarts:(state,action)=>{
-            state.carts=[]
+      if (existingResta) {
+        state.carts = [];
+      }
+      const existingItem = state.carts.find(
+        (cartItem) =>
+          cartItem.item.id === item.id &&
+          cartItem.restaurant.id === restaurant.id
+      );
+      console.log("item", item);
+      console.log("res", restaurant);
+
+      if (restaurant.id !== existingItem) {
+        if (existingItem) {
+          console.log(existingItem);
+          existingItem.qnty += 1;
+        } else {
+          console.log("hi", existingItem);
+          state.carts.push({ item, restaurant, qnty: 1 });
         }
-    }
-})
+      } else {
+        state.carts.pop({ item, restaurant, qnty: 0 });
+      }
+    },
+    removeSingleItems: (state, action: PayloadAction<{ id: number }>) => {
+      const { id } = action.payload;
+      console.log("Item ID:", id);
 
-export const { addToCart ,removeCart,removeSingleItems,emptyCarts} = cartSlice.actions
-export default cartSlice.reducer
+      const existingItem = state.carts.find(
+        (cartItem) => cartItem.item.id === id
+      );
+
+      if (existingItem) {
+        if (existingItem.qnty === 1) {
+          state.carts = state.carts.filter(
+            (cartItem) => cartItem.item.id !== id
+          );
+        } else {
+          existingItem.qnty -= 1;
+        }
+      } else {
+        console.log("Item not found in cart");
+      }
+    },
+    removeCart: (state, action) => {
+      state.carts = state.carts.filter(
+        (cartItem) => cartItem.item.id !== action.payload
+      );
+    },
+    emptyCarts: (state) => {
+      state.carts = [];
+    },
+  },
+});
+
+export const { addToCart, removeCart, removeSingleItems, emptyCarts } =
+  cartSlice.actions;
+export default cartSlice.reducer;

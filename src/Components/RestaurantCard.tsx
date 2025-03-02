@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Box, Card, CardContent, Typography } from '@mui/material';
+import { Box, CardContent, Typography } from '@mui/material';
 import { CDN_URL } from '../utils/constant';
 import { CardItem } from '../Interface';
 import StarsIcon from '@mui/icons-material/Stars';
