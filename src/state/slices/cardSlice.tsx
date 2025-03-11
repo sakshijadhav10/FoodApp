@@ -1,8 +1,4 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import toast from "react-hot-toast";
-import AddtoCart from "../../AddtoCart";
-import { NavLink } from "react-router-dom";
-import { Dialog } from "@mui/material";
 
 const initialState = {
   carts: [],

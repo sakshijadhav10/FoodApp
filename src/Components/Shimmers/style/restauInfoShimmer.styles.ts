@@ -1,0 +1,46 @@
+export const restauInfoStyle = {
+  infoCard: {
+    borderRadius: 5,
+    boxShadow: 15,
+    // marginLeft: 30,
+    width: "100%",
+    height: 150,
+    mt: 20,
+  },
+  infoCardContent: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "flex-start",
+    gap: 0.5,
+    mt: 4,
+  },
+  infoCardContentBox: {
+    display: "flex",
+    gap: 2,
+    justifyContent: "flex-start",
+    mt: 5,
+  },
+  infoCardBox: {
+    boxShadow: 15,
+    width: "100%",
+    display: "flex",
+    height: 300,
+    justifyContent: "space-between",
+    marginTop: 5,
+    // marginLeft: 30,
+    alignContentL: "center",
+    borderRadius: 5,
+  },
+
+  infoAddToCartBtn: {
+    position: "absolute",
+    top: "90%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    color: "green",
+    borderRadius: 2,
+    backgroundColor: "skyblue",
+    height: 30,
+    width: 50,
+  },
+};

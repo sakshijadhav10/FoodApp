@@ -16,32 +16,21 @@ const Transition = React.forwardRef(function Transition(
 ) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
+
+// interface
 interface AddtoCartProps {
   open: boolean;
   onClose: () => void;
-  handleAddAgain: () => void;
+  onHandleAddAgain: () => void;
 }
 
 export default function AddtoCart({
   open,
   onClose,
-  handleAddAgain,
+  onHandleAddAgain,
 }: AddtoCartProps) {
-  //   const [open, setOpen] = React.useState(false);
-
-  //   const handleClickOpen = () => {
-  //     setOpen(true);
-  //   };
-
-  //   const handleClose = () => {
-  //     setOpen(false);
-  //   };
-
   return (
     <React.Fragment>
-      {/* <Button variant="outlined" onClick={handleClickOpen}>
-        Slide in alert dialog
-      </Button> */}
       <Dialog
         open={open}
         TransitionComponent={Transition}
@@ -58,7 +47,7 @@ export default function AddtoCart({
         </DialogContent>
         <DialogActions>
           <Button onClick={onClose}>No</Button>
-          <Button onClick={handleAddAgain}>Yes,Start Afresh</Button>
+          <Button onClick={onHandleAddAgain}>Yes,Start Afresh</Button>
         </DialogActions>
       </Dialog>
     </React.Fragment>

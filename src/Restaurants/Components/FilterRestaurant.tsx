@@ -19,17 +19,10 @@ import {
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import FilterListIcon from "@mui/icons-material/FilterList";
+import { Filter, FilterBy, SortBy } from "../../Interface";
+import globalMuiStyles from "../../utils/global.styles";
 
-interface filter {
-  handleApply: () => void;
-  handleClear: () => void;
-  sortBy: string;
-  setSortBy: string;
-  filterBy: string;
-  setFilterBy: string;
-}
-
-const FilterMenu: React.FC<filter> = ({
+const FilterMenu: React.FC<Filter> = ({
   handleClear,
   handleApply,
   sortBy,
@@ -37,54 +30,99 @@ const FilterMenu: React.FC<filter> = ({
   filterBy,
   setFilterBy,
 }) => {
+  const [open, setOpen] = useState(false);
+  const [cnt, setCnt] = useState(0);
+  const [sortSelected, setSortSelected] = useState(false);
+  const [filterSelected, setFilterSelected] = useState(false);
+  const [showBtn, setShowBtn] = useState(false);
+
+  // handlers----------------------------
+
   const handleOpen = () => setOpen(true);
 
-  const [open, setOpen] = useState(false);
   const handleClose = () => setOpen(false);
 
-  const [cnt, setCnt] = useState(0);
-  const [showBtn, setShowBtn] = useState(false);
-  // let cnt = 1;
-  const Ischeck = () => {
-    setCnt((prevCnt) => prevCnt + 1);
-  };
   function handleClearAllFilter() {
     setCnt(0);
+    setSortSelected(false);
+    setFilterSelected(false);
     handleClear();
-    setShowBtn(!showBtn);
+    setShowBtn(false);
   }
 
-  function AfterApply() {
+  const handleSortChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSortBy(e.target.value as SortBy);
+    if (!sortSelected) {
+      setSortSelected(true);
+      setCnt((prevCnt) => prevCnt + 1);
+    }
+  };
+
+  const handleFilterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFilterBy(e.target.value as FilterBy);
+    if (!filterSelected) {
+      setFilterSelected(true);
+      setCnt((prevCnt) => prevCnt + 1);
+    }
+  };
+
+  function handleAfterApply() {
     handleApply();
-
     handleClose();
-    setShowBtn(!showBtn);
+    setShowBtn(true);
   }
-  console.log(sortBy);
 
   return (
     <>
       <Stack
         sx={{
           flexDirection: "row",
-          gap: 2,
-          alignItems: "center",
+          gap: { xs: 0.7, md: 1, lg: 2 },
+          alignItems: { xs: "center", lg: "center" },
         }}
       >
         <Button
-          variant="outlined"
+          variant="contained"
           startIcon={<FilterListIcon />}
-          sx={{ height: 30, width: 80 }}
+          sx={{
+            height: { xs: 25, md: 30 },
+            width: { xs: 70, sm: 80, md: 90 },
+            ml: { xs: 0 },
+
+            borderRadius: 10,
+            color: "#000000",
+            backgroundColor: "#D3D3D3",
+            ...globalMuiStyles.display,
+          }}
           onClick={handleOpen}
         >
           <Badge badgeContent={cnt} color="secondary">
-            {" "}
-            Filter
+            <Typography
+              variant="body2"
+              sx={{
+                fontSize: { xs: 10, sm: 12, md: 12, lg: 14 },
+                fontWeight: "100",
+                width: { xs: 20, md: 25, lg: 30 },
+                mr: { xs: 2 },
+                color: "#000000",
+              }}
+            >
+              Filter
+            </Typography>
           </Badge>
         </Button>
+
         {showBtn && (
           <Chip
-            sx={{ mt: 0.1 }}
+            sx={{
+              mt: { sm: 0.2 },
+              ml: { xs: 1 },
+              // mr: { xs: 0.3 },
+              backgroundColor: "#D3D3D3",
+              height: { xs: 25, md: 30 },
+              width: { xs: 80, sm: 80, md: 90, lg: 90 },
+              fontSize: { xs: 10 },
+            }}
             label="Clear Filters"
             onClick={handleClearAllFilter}
             variant="outlined"
@@ -92,10 +130,15 @@ const FilterMenu: React.FC<filter> = ({
         )}
       </Stack>
 
-      <Dialog open={open} onClose={handleClose} fullWidth maxWidth="sm">
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        maxWidth="lg"
+        sx={{ mt: { xs: 8, lg: 10 } }}
+      >
         <DialogTitle
           sx={{
-            display: "flex",
+            ...globalMuiStyles.display,
             justifyContent: "space-between",
             alignItems: "center",
           }}
@@ -110,39 +153,31 @@ const FilterMenu: React.FC<filter> = ({
             </AccordionSummary>
             <AccordionDetails>
               <FormControl component="fieldset">
-                <RadioGroup
-                  value={sortBy}
-                  onChange={(e) => setSortBy(e.target.value)}
-                >
+                <RadioGroup value={sortBy} onChange={handleSortChange}>
                   <FormControlLabel
                     value="Relevance"
                     control={<Radio />}
-                    label="Relevance (Default)"
-                    onClick={Ischeck}
+                    label="Relevance"
                   />
                   <FormControlLabel
                     value="Delivery Time"
                     control={<Radio />}
-                    label="Delivery Time"
-                    onClick={Ischeck}
+                    label="DeliveryTime"
                   />
                   <FormControlLabel
                     value="Rating"
                     control={<Radio />}
                     label="Rating"
-                    onClick={Ischeck}
                   />
                   <FormControlLabel
                     value="Low to High"
                     control={<Radio />}
                     label="Cost: Low to High"
-                    onClick={Ischeck}
                   />
                   <FormControlLabel
                     value="High to Low"
                     control={<Radio />}
                     label="Cost: High to Low"
-                    onClick={Ischeck}
                   />
                 </RadioGroup>
               </FormControl>
@@ -157,28 +192,21 @@ const FilterMenu: React.FC<filter> = ({
             </AccordionSummary>
             <AccordionDetails>
               <FormControl component="fieldset">
-                <RadioGroup
-                  value={filterBy}
-                  onChange={(e) => setFilterBy(e.target.value)}
-                >
-                  {/* <FormControlLabel value="Default" control={<Radio />} label="Default" /> */}
+                <RadioGroup value={filterBy} onChange={handleFilterChange}>
                   <FormControlLabel
                     value="Ratings 4.5+"
                     control={<Radio />}
                     label="Ratings 4.5+"
-                    onClick={Ischeck}
                   />
                   <FormControlLabel
                     value="Ratings 4.0+"
                     control={<Radio />}
                     label="Ratings 4.0+"
-                    onClick={Ischeck}
                   />
                   <FormControlLabel
                     value="Rating 3.5+"
                     control={<Radio />}
                     label="Ratings 3.5+"
-                    onClick={Ischeck}
                   />
                 </RadioGroup>
               </FormControl>
@@ -190,14 +218,15 @@ const FilterMenu: React.FC<filter> = ({
           <Button onClick={handleClearAllFilter} color="error">
             Clear Filters
           </Button>
-          <Button onClick={AfterApply} variant="contained" color="primary">
+          <Button
+            onClick={handleAfterApply}
+            variant="contained"
+            color="primary"
+          >
             Apply
           </Button>
         </DialogActions>
       </Dialog>
-      {/* {filteredList.map((item) => (
-        <div key={item.info.id}>{item.info.name}</div>
-      ))} */}
     </>
   );
 };
