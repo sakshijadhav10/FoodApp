@@ -69,12 +69,10 @@ const HomePage: React.FC = () => {
   };
 
   const handleApplySort = () => {
-    handleSortBy();
-    handleFilterBy();
-    setOpen(!open);
+    handleSortFilterBy();
   };
 
-  const handleSortBy = () => {
+  const handleSortFilterBy = () => {
     let updatedList = [...restaurantData];
     switch (sortBy) {
       case "Relevance":
@@ -109,11 +107,6 @@ const HomePage: React.FC = () => {
       default:
         break;
     }
-    setRestaurantData(updatedList);
-  };
-
-  const handleFilterBy = () => {
-    let updatedList = [...restaurantData];
     switch (filterBy) {
       case "Ratings 4.5+":
         updatedList = updatedList.filter((res) => res.info.avgRating > 4.5);
@@ -128,7 +121,10 @@ const HomePage: React.FC = () => {
         break;
     }
     setRestaurantData(updatedList);
+
+    setOpen(!open);
   };
+
   const handleBestRestaurants = () => {
     if (!change) {
       const listOfRestaurants = restaurantData.filter(

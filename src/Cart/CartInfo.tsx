@@ -104,7 +104,7 @@ const CartDetails: React.FC = () => {
 
   return (
     <Container
-      maxWidth="md"
+      maxWidth="lg"
       sx={{
         justifyContent: "center",
       }}

@@ -66,12 +66,13 @@ const CartDetails: React.FC = () => {
           </Typography>
           <Card
             sx={{
-              borderRadius: 7,
-              border: 0.5,
-              background: "#ffffff",
+              display: "block",
+              background:
+                " linear-gradient(rgb(255, 255, 255) -6.71%, rgb(235, 235, 242) 56.19%, rgb(223, 223, 231) 106.56%)",
               padding: { xs: 0, lg: "0px 10px 5px" },
               borderBottomLeftRadius: 36,
               borderBottomRightRadius: 36,
+              boxSizing: "inherit",
             }}
           >
             <CardContent>

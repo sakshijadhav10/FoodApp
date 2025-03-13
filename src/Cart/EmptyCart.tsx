@@ -9,8 +9,11 @@ const EmptyCart = () => {
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
+        background: "cover",
         justifyContent: "center",
-        height: "100vh",
+        height: "90vh",
+        // position: "fixed",
+        overflow: "hidden",
       }}
     >
       <img

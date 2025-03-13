@@ -162,7 +162,7 @@ const FilterMenu: React.FC<Filter> = ({
                   <FormControlLabel
                     value="Delivery Time"
                     control={<Radio />}
-                    label="DeliveryTime"
+                    label="Delivery Time"
                   />
                   <FormControlLabel
                     value="Rating"
