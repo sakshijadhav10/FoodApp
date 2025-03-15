@@ -2,14 +2,16 @@ import globalMuiStyles from "../../../utils/global.styles";
 
 export const shimmerStyle = {
   restauBox: {
-    ...globalMuiStyles.display,
+    ...globalMuiStyles.pageContainer,
     flexWrap: "wrap",
-    mt: 4,
+    gap: "14px",
+    mt: 2,
+    mr: 1,
   },
   restauBtn: {
     height: 30,
     width: 80,
-    mt: 2,
+
     ml: 3,
   },
   restauChip: { ml: 2, mt: 2, backgroundColor: "lightgray", width: 100 },

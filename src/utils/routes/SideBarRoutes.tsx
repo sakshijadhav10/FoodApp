@@ -1,7 +1,6 @@
-// import AuthDrawer from "../../Auth/AuthDrawer";
-import CartDetails from "../../Cart/CartInfo";
 import HomePage from "../../Restaurants/HomePage";
 import SearchItem from "../../Restaurants/Components/SearchRestaurant";
+import CartItemInfo from "../../Cart/CartItemInfo";
 
 export const sidebar = [
   {
@@ -26,7 +25,7 @@ export const sidebar = [
   {
     routerName: "Cart",
     routeHref: "/cart",
-    icon: <CartDetails />,
+    icon: <CartItemInfo />,
   },
   // {
   //   routeName: "SignIn",

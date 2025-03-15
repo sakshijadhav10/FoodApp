@@ -1,12 +1,11 @@
 import { useEffect, useState } from "react";
-import { Drawer, Button, Typography } from "@mui/material";
+import { Drawer, Button, Typography, useMediaQuery } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import Login from "./Login";
 import Register from "./Register";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import toast from "react-hot-toast";
 import { headerStyle } from "../Components/Layout/styles/Header.styles";
-import globalMuiStyles from "../utils/global.styles";
 
 const AuthDrawer = () => {
   const [currentDrawer, setCurrentDrawer] = useState<
@@ -14,12 +13,18 @@ const AuthDrawer = () => {
   >(null);
 
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
-
+  const mobileOpen = useMediaQuery("(max-width:1200px)");
   useEffect(() => {
     updateLoginState();
   }, []);
 
   // handlers -----------
+  const handleLogin = (values: string) => {
+    console.log(values);
+
+    updateLoginState();
+  };
+
   const handleLogout = () => {
     sessionStorage.removeItem("isAuthenticated");
     sessionStorage.removeItem("user_login");
@@ -50,6 +55,7 @@ const AuthDrawer = () => {
             fontWeight: { xs: "none", sm: "none", md: "none", lg: 700 },
             ml: { xs: 12, sm: 12, md: 12, lg: 2 },
             mt: { xs: 2, lg: 0 },
+            cursor: "pointer",
           }}
         >
           <AccountCircleIcon
@@ -65,6 +71,7 @@ const AuthDrawer = () => {
             fontWeight: { xs: "none", sm: "none", md: "none", lg: 700 },
             ml: { xs: 12, sm: 12, md: 12, lg: 2 },
             mt: { xs: 2, lg: 0 },
+            cursor: "pointer",
           }}
         >
           <AccountCircleIcon
@@ -75,30 +82,47 @@ const AuthDrawer = () => {
       )}
 
       <Drawer
-        anchor="right"
+        anchor={mobileOpen ? "left" : "right"}
         open={currentDrawer !== null}
         onClose={() => toggleDrawer(null)}
       >
         <div
           style={{
-            width: "100%",
-            padding: 10,
-
-            justifyContent: "flex-end",
+            // width: "100%",
+            display: "flex",
+            flexDirection: "column",
           }}
         >
-          <Button
+          {/* <Button
             onClick={() => toggleDrawer(null)}
             sx={{
-              ...globalMuiStyles.display,
-
+              // ...globalMuiStyles.display,
+              mt: 2,
+              // width: "100%",
               color: "#000000",
+              justifyContent: { xs: "right", lg: "left" },
+              ml: { xs: 0, lg: 1.5 },
+              background: "none",
+              cursor: "pointer",
             }}
-          >
-            <CloseIcon />
-          </Button>
+          > */}
+          <CloseIcon
+            onClick={() => toggleDrawer(null)}
+            sx={{
+              mt: 2,
+              // width: "100%",
+              color: "#000000",
+              justifyContent: { xs: "right", lg: "left" },
+              ml: { xs: 0, lg: 2 },
+              background: "none",
+              cursor: "pointer",
+            }}
+          />
+          {/* </Button> */}
+
           {currentDrawer === "login" ? (
             <Login
+              onHandleSubmit={handleLogin}
               setCurrentDrawer={setCurrentDrawer}
               setLoggedIn={setIsLoggedIn}
             />

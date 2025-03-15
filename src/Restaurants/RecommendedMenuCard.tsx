@@ -52,7 +52,7 @@ const RecommendedMenuCard = ({
     itemCards: ItemCard[],
     restaurantInfo: RestaurantInfo
   ) => {
-    const LOGGED_USER = sessionStorage.getItem("userdata");
+    const LOGGED_USER = localStorage.getItem("userdata");
     console.log("loginuser", LOGGED_USER);
 
     if (!LOGGED_USER || !LOGGED_USER.length) {

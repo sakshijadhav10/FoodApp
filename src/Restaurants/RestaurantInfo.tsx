@@ -18,6 +18,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import RecommendedMenuCard from "./RecommendedMenuCard";
 import { CardItem } from "../Interface";
+import DealsOfDay from "./DealsOfDay";
 
 const CartDetails: React.FC = () => {
   const [cartDetails, setCartDetails] = useState<CardItem | null>(null);
@@ -25,7 +26,7 @@ const CartDetails: React.FC = () => {
   const { resId } = useParams();
   const restaurantInfo = cartDetails?.cards[2]?.card?.card?.info;
   const itemCards =
-    cartDetails?.cards[4]?.groupedCard?.cardGroupMap?.REGULAR?.cards[2]?.card
+    cartDetails?.cards[4]?.groupedCard?.cardGroupMap?.REGULAR?.cards[1]?.card
       ?.card?.itemCards || [];
   console.log("itemcards", itemCards);
 
@@ -66,7 +67,7 @@ const CartDetails: React.FC = () => {
           </Typography>
           <Card
             sx={{
-              display: "block",
+              // display: "block",
               background:
                 " linear-gradient(rgb(255, 255, 255) -6.71%, rgb(235, 235, 242) 56.19%, rgb(223, 223, 231) 106.56%)",
               padding: { xs: 0, lg: "0px 10px 5px" },
@@ -159,6 +160,9 @@ const CartDetails: React.FC = () => {
               </Box>
             </CardContent>
           </Card>
+          <Box sx={{ mt: 2 }}>
+            <DealsOfDay />
+          </Box>
           <Box>
             {showMore ? (
               <Box

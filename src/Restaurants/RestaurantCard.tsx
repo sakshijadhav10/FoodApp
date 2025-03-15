@@ -12,12 +12,13 @@ const RestaurantCard: React.FC<{ resData: CardItem }> = ({ resData }) => {
   return (
     <Box
       sx={{
-        width: { xs: 300, sm: 290, md: 290, lg: 270 },
+        width: { xs: 300, sm: 290, md: 290, lg: 290 },
         borderRadius: 3,
         height: 300,
-        border: "none",
+
         objectFit: "cover",
         transition: "0.3s",
+
         "&:hover": { transform: "scale(0.97)", transformOrigin: "top bottom" },
       }}
     >

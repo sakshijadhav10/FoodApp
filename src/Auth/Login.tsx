@@ -14,13 +14,15 @@ import { authStyle } from "./styles/auth.styles";
 import { loginSchema } from "./validationSchemas/loginSchema";
 
 const Login = ({
+  onHandleSubmit,
   setCurrentDrawer,
   setLoggedIn,
 }: {
+  onHandleSubmit;
   setCurrentDrawer: React.Dispatch<
     React.SetStateAction<"register" | "login" | null>
   >;
-  setLoggedIn;
+  setLoggedIn: any;
 }) => {
   const navigate = useNavigate();
   const initialValues = {
@@ -31,6 +33,8 @@ const Login = ({
   // effects---------------
   useEffect(() => {
     const userLoginData = sessionStorage.getItem("user_login");
+    console.log(userLoginData);
+
     if (userLoginData) {
       setLoggedIn(true); // User is logged in, show logout button
     }
@@ -44,11 +48,12 @@ const Login = ({
 
       validationSchema: loginSchema,
       onSubmit: (values, actions) => {
+        onHandleSubmit(values);
         const getuser = sessionStorage.getItem("userdata");
         const userdata = JSON.parse(getuser);
         console.log("userdata", userdata);
 
-        const userlogin = userdata.filter((el, k) => {
+        const userlogin = userdata.filter((el) => {
           return el.email === values.email && el.password === values.password;
         });
 
@@ -69,7 +74,6 @@ const Login = ({
             navigate(`/`);
           }
         }
-
         actions.resetForm();
       },
     });

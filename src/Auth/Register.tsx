@@ -6,7 +6,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
 import { useFormik } from "formik";
 import { authStyle } from "./styles/auth.styles";
 import { RegisterSchema } from "./validationSchemas/registerSchema";

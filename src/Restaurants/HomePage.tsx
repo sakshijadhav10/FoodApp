@@ -13,11 +13,13 @@ import { Link } from "react-router-dom";
 import { CardItem, FilterBy, SortBy } from "../Interface";
 import FilterMenu from "./Components/FilterRestaurant";
 import globalMuiStyles from "../utils/global.styles";
+
 import axios from "axios";
 import {
   RESTAURANT_API,
   RESTAURANT_API2,
 } from "../services/webApiServices.apis";
+import WhatsOnMind from "./WhatsOnMind";
 
 const HomePage: React.FC = () => {
   const [restaurantData, setRestaurantData] = useState<CardItem[]>([]);
@@ -28,6 +30,7 @@ const HomePage: React.FC = () => {
   const [filterBy, setFilterBy] = useState<FilterBy>();
 
   const mobileOpen = useMediaQuery("(max-width:600px)");
+  const [slide, setslide] = useState(0);
 
   // effects----------------
   useEffect(() => {
@@ -62,6 +65,7 @@ const HomePage: React.FC = () => {
   };
 
   // handlers--------------------
+
   const handleClearFilters = () => {
     setSortBy("");
     setFilterBy("");
@@ -138,25 +142,29 @@ const HomePage: React.FC = () => {
     setChange(!change);
   };
 
-  return restaurantData.length === 0 ? (
+  console.log(restaurantData);
+
+  return (
+    /* restaurantData.length === 0 ? (
     <Shimmer />
-  ) : (
+  ) : ( */
     <Container
       sx={{
         display: "flex",
         justifyContent: "center",
         alignItems: "flex-start",
-        minHeight: "100vh",
+        // minHeight: "100vh",
         padding: 0,
+        mt: 2,
       }}
     >
       <Paper
         elevation={0}
         sx={{
           mt: 10,
-          width: "100%",
+          width: "80%",
           ...globalMuiStyles.pageContainer,
-          display: "flex",
+          // display: "flex",
           flexDirection: "column",
           gap: "16px",
         }}
@@ -170,46 +178,43 @@ const HomePage: React.FC = () => {
               md: "center",
               lg: "flex-start",
             },
-            textAlign: {
-              xs: "center",
-              sm: "center",
-              md: "center",
-              lg: "left",
-            },
+            textAlign: "flex-start",
             justifyContent: { xs: "center", md: "center", lg: "flex-start" },
             ml: { xs: 0, md: 0, sm: 0, lg: 3 },
 
             width: "100%",
           }}
         >
+          <Box>
+            <WhatsOnMind />
+          </Box>
+
           <Typography
             variant="h6"
             sx={{
-              // textAlign: { xs: "center", md: "center" },
-              fontWeight: "bolder",
-              mt: 2,
-              fontSize: { xs: 12, sm: 15, md: 18 },
+              mt: 4,
+              boxSizing: "inherit",
+              display: "inline-block",
+              color: "#02060c",
+              fontWeight: 900,
+
+              fontFamily: "Gilroy, arial, Helvetica Neue, sans-serif",
+              fontSize: { xs: "14px", lg: "18px" },
+
+              lineHeight: 1.2,
+              // fontSize: { xs: 12, sm: 15, md: 18 },
             }}
           >
             Restaurants with online food delivery in Chhindwara
           </Typography>
+
           <Box
             sx={{
               display: "flex",
               mt: 1,
               gap: 1,
-              alignItems: {
-                xs: "center",
-                sm: "center",
-                md: "center",
-                lg: "flex-start",
-              },
-              justifyContent: {
-                xs: "center",
-                sm: "center",
-                md: "center",
-                lg: "flex-start",
-              },
+              alignItems: "flex-start",
+              justifyContent: "flex-start",
             }}
           >
             <FilterMenu
@@ -243,25 +248,29 @@ const HomePage: React.FC = () => {
         </Box>
         <Box
           sx={{
-            ...globalMuiStyles.display,
-            flexWrap: "wrap",
-            gap: "10px",
-            mt: 2,
-
+            // ...globalMuiStyles.display,
             ...globalMuiStyles.pageContainer,
+
+            flexWrap: "wrap",
+            gap: "14px",
+            mt: 2,
           }}
         >
-          {restaurantData.map((restaurant) => (
-            <Link
-              style={{
-                textDecoration: "none",
-              }}
-              key={restaurant.info.id}
-              to={"/cartDetails/" + restaurant.info.id}
-            >
-              <RestaurantCard resData={restaurant} key={restaurant.id} />
-            </Link>
-          ))}
+          {restaurantData.length ? (
+            restaurantData.map((restaurant) => (
+              <Link
+                style={{
+                  textDecoration: "none",
+                }}
+                key={restaurant.info.id}
+                to={"/cartDetails/" + restaurant.info.id}
+              >
+                <RestaurantCard resData={restaurant} key={restaurant.id} />
+              </Link>
+            ))
+          ) : (
+            <Shimmer />
+          )}
         </Box>
       </Paper>
     </Container>

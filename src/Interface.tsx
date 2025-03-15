@@ -9,8 +9,8 @@ export interface CardItem {
   info: {
     id: number;
     name: string;
-    price: number;
-    defaultPrice: number;
+    price: number | string;
+    defaultPrice: number | string;
     description: string;
     imageId: string;
     cloudinaryImageId: string;

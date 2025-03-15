@@ -112,12 +112,11 @@ const FilterMenu: React.FC<Filter> = ({
           </Badge>
         </Button>
 
-        {showBtn && (
+        {showBtn && cnt > 0 && (
           <Chip
             sx={{
               mt: { sm: 0.2 },
               ml: { xs: 1 },
-              // mr: { xs: 0.3 },
               backgroundColor: "#D3D3D3",
               height: { xs: 25, md: 30 },
               width: { xs: 80, sm: 80, md: 90, lg: 90 },
